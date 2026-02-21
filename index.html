@@ -499,6 +499,7 @@
     <button class="tab-btn" onclick="switchTab('market')">📈 市場・競合</button>
     <button class="tab-btn" onclick="switchTab('financials')">💹 業績</button>
     <button class="tab-btn" onclick="switchTab('news')">📰 最新動向</button>
+    <button class="tab-btn" onclick="switchTab('industry')">🏭 業種別市場</button>
   </div>
 </nav>
 
@@ -1405,6 +1406,403 @@
   </div>
 </div>
 
+<!-- ===== TAB: INDUSTRY ANALYSIS ===== -->
+<div id="tab-industry" class="tab-content">
+
+  <h2 class="section-title"><span class="icon">🏭</span>業種別市場動向・RPA事業者優位性分析</h2>
+
+  <div class="card" style="margin-bottom:32px;">
+    <p style="font-size:15px; line-height:1.9;">国内外の主要RPA・ハイパーオートメーション事業者が、<strong>卸売業/小売業・情報通信業・医療/福祉・製造業</strong>の4市場においてどのような優位性を持ち、どの事業者が注力しているかを分析します。各業種固有のユースケース、市場リーダー、最新トレンドを網羅しています。</p>
+  </div>
+
+  <!-- Industry Selector -->
+  <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:32px;">
+    <button class="industry-btn active" onclick="showIndustry('retail')" style="padding:10px 20px; border-radius:24px; border:2px solid var(--primary); background:var(--primary); color:white; font-weight:700; cursor:pointer; font-size:14px;">🛒 卸売業/小売業</button>
+    <button class="industry-btn" onclick="showIndustry('ict')" style="padding:10px 20px; border-radius:24px; border:2px solid var(--border); background:white; color:var(--text); font-weight:700; cursor:pointer; font-size:14px;">📡 情報通信業</button>
+    <button class="industry-btn" onclick="showIndustry('healthcare')" style="padding:10px 20px; border-radius:24px; border:2px solid var(--border); background:white; color:var(--text); font-weight:700; cursor:pointer; font-size:14px;">🏥 医療/福祉</button>
+    <button class="industry-btn" onclick="showIndustry('manufacturing')" style="padding:10px 20px; border-radius:24px; border:2px solid var(--border); background:white; color:var(--text); font-weight:700; cursor:pointer; font-size:14px;">🏭 製造業</button>
+  </div>
+
+  <!-- Radar Chart -->
+  <div class="card" style="margin-bottom:32px;">
+    <h3 style="margin-bottom:16px;">📊 業種別 主要事業者 競争力レーダー</h3>
+    <p style="font-size:13px; color:var(--text-light); margin-bottom:16px;">各業種における主要3事業者の競争力を5軸（業種特化度・導入実績・AI連携・国内サポート・コスト効率）で評価</p>
+    <div style="height:360px; position:relative;">
+      <canvas id="industryRadarChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Market Share Bar Chart -->
+  <div class="card" style="margin-bottom:32px;">
+    <h3 style="margin-bottom:16px;">📈 業種別 事業者注力度スコア（推定）</h3>
+    <p style="font-size:13px; color:var(--text-light); margin-bottom:16px;">各事業者の業種への注力度を、専門ソリューション・導入実績・パートナーシップ等から総合評価（10点満点）</p>
+    <div style="height:320px; position:relative;">
+      <canvas id="industryBarChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Industry Detail Panels -->
+  <div id="industry-retail" class="industry-panel">
+    <div class="card">
+      <h3 style="color:var(--primary); margin-bottom:20px;">🛒 卸売業/小売業 — 詳細分析</h3>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">主要ユースケース</h4>
+      <div class="grid-3" style="margin-bottom:24px;">
+        <div style="background:#fff5f0; border-radius:12px; padding:16px; border-left:4px solid var(--primary);">
+          <div style="font-size:20px; margin-bottom:8px;">📦</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">在庫・受発注管理</div>
+          <div style="font-size:13px; color:var(--text-light);">在庫確認、発注処理、欠品・過剰在庫リスクの低減</div>
+        </div>
+        <div style="background:#fff5f0; border-radius:12px; padding:16px; border-left:4px solid var(--primary);">
+          <div style="font-size:20px; margin-bottom:8px;">📊</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">POSデータ分析</div>
+          <div style="font-size:13px; color:var(--text-light);">顧客行動・購買履歴の収集・分析、需要予測</div>
+        </div>
+        <div style="background:#fff5f0; border-radius:12px; padding:16px; border-left:4px solid var(--primary);">
+          <div style="font-size:20px; margin-bottom:8px;">🚚</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">サプライチェーン最適化</div>
+          <div style="font-size:13px; color:var(--text-light);">サプライヤー連携、物流管理、返品処理の自動化</div>
+        </div>
+        <div style="background:#fff5f0; border-radius:12px; padding:16px; border-left:4px solid var(--primary);">
+          <div style="font-size:20px; margin-bottom:8px;">💳</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">決済・経理処理</div>
+          <div style="font-size:13px; color:var(--text-light);">請求書処理、入金消込、経費精算の自動化</div>
+        </div>
+        <div style="background:#fff5f0; border-radius:12px; padding:16px; border-left:4px solid var(--primary);">
+          <div style="font-size:20px; margin-bottom:8px;">👥</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">顧客データ管理</div>
+          <div style="font-size:13px; color:var(--text-light);">CRM登録、ロイヤルティプログラム管理</div>
+        </div>
+        <div style="background:#fff5f0; border-radius:12px; padding:16px; border-left:4px solid var(--primary);">
+          <div style="font-size:20px; margin-bottom:8px;">🛍️</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">EC自動化</div>
+          <div style="font-size:13px; color:var(--text-light);">商品情報更新、価格設定、注文管理の自動化</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">市場リーダー（上位3社）</h4>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:var(--secondary); color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+          <div><strong>UiPath</strong> — グローバル市場での圧倒的リーダーシップ。AIを活用した在庫最適化・価格設定など小売業特化ソリューションを提供。Peak社買収で在庫AIを強化。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#9ca3af; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+          <div><strong>Automation Anywhere</strong> — コンタクトセンター業務・請求書処理の効率化で高実績。米国大手小売で年間200万ドル超のコスト削減を実現。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#cd7f32; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+          <div><strong>Microsoft Power Automate</strong> — Microsoft 365/Dynamics 365とのシームレスな連携が強み。ローコード/ノーコードで現場主導の自動化を促進。</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">国内主要事業者の強み</h4>
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead><tr style="background:var(--primary); color:white;">
+          <th style="padding:10px 14px; text-align:left;">事業者</th>
+          <th style="padding:10px 14px; text-align:left;">強み・特徴</th>
+          <th style="padding:10px 14px; text-align:left;">主な導入先</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">BizRobo!（オープングループ）</td>
+            <td style="padding:10px 14px;">国産RPAとして国内市場に強固な基盤。現場主導の内製化支援と手厚いサポート体制</td>
+            <td style="padding:10px 14px; color:var(--text-light);">カインズ、マツキヨ、フェリシモ、コープかがわ等</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">WinActor（NTTデータ）</td>
+            <td style="padding:10px 14px;">日本語環境での使いやすさ、大手百貨店・商社での豊富な実績</td>
+            <td style="padding:10px 14px; color:var(--text-light);">そごう・西武、J.フロント リテイリング、三井物産</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; font-weight:700;">Blue Prism（SS&C）</td>
+            <td style="padding:10px 14px;">オムニチャネル戦略支援、不正防止、ESGレポーティング促進</td>
+            <td style="padding:10px 14px; color:var(--text-light);">Pets at Home、The Very Group等（海外）</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="industry-ict" class="industry-panel" style="display:none;">
+    <div class="card">
+      <h3 style="color:#0ea5e9; margin-bottom:20px;">📡 情報通信業 — 詳細分析</h3>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">主要ユースケース</h4>
+      <div class="grid-3" style="margin-bottom:24px;">
+        <div style="background:#f0f9ff; border-radius:12px; padding:16px; border-left:4px solid #0ea5e9;">
+          <div style="font-size:20px; margin-bottom:8px;">🌐</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">ネットワーク運用管理</div>
+          <div style="font-size:13px; color:var(--text-light);">障害検知・自己修復・イベント管理の自動化</div>
+        </div>
+        <div style="background:#f0f9ff; border-radius:12px; padding:16px; border-left:4px solid #0ea5e9;">
+          <div style="font-size:20px; margin-bottom:8px;">🎧</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">カスタマーサポート</div>
+          <div style="font-size:13px; color:var(--text-light);">問い合わせ一次対応、FAQの自動応答、CRM登録</div>
+        </div>
+        <div style="background:#f0f9ff; border-radius:12px; padding:16px; border-left:4px solid #0ea5e9;">
+          <div style="font-size:20px; margin-bottom:8px;">📋</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">請求・契約管理</div>
+          <div style="font-size:13px; color:var(--text-light);">新規契約処理、請求書発行、入金消込の自動化</div>
+        </div>
+        <div style="background:#f0f9ff; border-radius:12px; padding:16px; border-left:4px solid #0ea5e9;">
+          <div style="font-size:20px; margin-bottom:8px;">🔒</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">コンプライアンス管理</div>
+          <div style="font-size:13px; color:var(--text-light);">規制対応データの収集・集計・レポート作成</div>
+        </div>
+        <div style="background:#f0f9ff; border-radius:12px; padding:16px; border-left:4px solid #0ea5e9;">
+          <div style="font-size:20px; margin-bottom:8px;">🖥️</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">ITSM・システム運用</div>
+          <div style="font-size:13px; color:var(--text-light);">インシデント管理、変更管理、資産管理の自動化</div>
+        </div>
+        <div style="background:#f0f9ff; border-radius:12px; padding:16px; border-left:4px solid #0ea5e9;">
+          <div style="font-size:20px; margin-bottom:8px;">📈</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">営業・マーケティング最適化</div>
+          <div style="font-size:13px; color:var(--text-light);">リードスコアリング、チャーン分析、レポート作成</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">市場リーダー（上位3社）</h4>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:var(--secondary); color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+          <div><strong>UiPath</strong> — RPA市場のグローバルリーダー。NECフィールディング・NTTドコモ等での国内外豊富な実績。AIを活用したエンドツーエンド自動化プラットフォームが強み。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#9ca3af; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+          <div><strong>Automation Anywhere</strong> — 大規模展開能力とAI連携に強み。ソフトバンク等の大手通信事業者で採用。業界特化ソリューションも提供。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#cd7f32; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+          <div><strong>Blue Prism（SS&C）</strong> — 通信業界特有の課題に深く精通。顧客体験向上・コスト削減で具体的なROIを示す豊富な実績。大規模展開とガバナンス機能に定評。</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">注目事業者の特徴</h4>
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead><tr style="background:#0ea5e9; color:white;">
+          <th style="padding:10px 14px; text-align:left;">事業者</th>
+          <th style="padding:10px 14px; text-align:left;">強み・特徴</th>
+          <th style="padding:10px 14px; text-align:left;">注力領域</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">ServiceNow</td>
+            <td style="padding:10px 14px;">ITSM領域で圧倒的な強み。AIエージェントを活用したIT運用・カスタマーサポートの高度化</td>
+            <td style="padding:10px 14px; color:var(--text-light);">ITSM、インシデント管理、ワークフロー自動化</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">Pega Systems</td>
+            <td style="padding:10px 14px;">AIを活用した顧客エンゲージメント強化と業務効率化。通信業界向け包括的ソリューション</td>
+            <td style="padding:10px 14px; color:var(--text-light);">顧客対応、CRM、プロセス最適化</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; font-weight:700;">BizRobo!（オープングループ）</td>
+            <td style="padding:10px 14px;">国内情報通信企業での多数の導入実績。現場での内製化支援と手厚いサポート体制</td>
+            <td style="padding:10px 14px; color:var(--text-light);">バックオフィス業務、データ入力・転記自動化</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="industry-healthcare" class="industry-panel" style="display:none;">
+    <div class="card">
+      <h3 style="color:#10b981; margin-bottom:20px;">🏥 医療/福祉 — 詳細分析</h3>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">主要ユースケース</h4>
+      <div class="grid-3" style="margin-bottom:24px;">
+        <div style="background:#f0fdf4; border-radius:12px; padding:16px; border-left:4px solid #10b981;">
+          <div style="font-size:20px; margin-bottom:8px;">📋</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">電子カルテ・医療事務</div>
+          <div style="font-size:13px; color:var(--text-light);">患者受付、予約管理、データ入力・転記の自動化</div>
+        </div>
+        <div style="background:#f0fdf4; border-radius:12px; padding:16px; border-left:4px solid #10b981;">
+          <div style="font-size:20px; margin-bottom:8px;">🧾</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">レセプト・診療報酬請求</div>
+          <div style="font-size:13px; color:var(--text-light);">レセプト作成・点検、診療報酬請求の自動化</div>
+        </div>
+        <div style="background:#f0fdf4; border-radius:12px; padding:16px; border-left:4px solid #10b981;">
+          <div style="font-size:20px; margin-bottom:8px;">💊</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">薬剤・在庫管理</div>
+          <div style="font-size:13px; color:var(--text-light);">医薬品の発注、在庫管理、棚卸しの自動化</div>
+        </div>
+        <div style="background:#f0fdf4; border-radius:12px; padding:16px; border-left:4px solid #10b981;">
+          <div style="font-size:20px; margin-bottom:8px;">📝</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">介護記録・給付費請求</div>
+          <div style="font-size:13px; color:var(--text-light);">介護記録の作成、介護給付費請求業務の自動化</div>
+        </div>
+        <div style="background:#f0fdf4; border-radius:12px; padding:16px; border-left:4px solid #10b981;">
+          <div style="font-size:20px; margin-bottom:8px;">🔬</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">臨床試験・研究データ管理</div>
+          <div style="font-size:13px; color:var(--text-light);">治験データの収集・入力、研究レポート作成の自動化</div>
+        </div>
+        <div style="background:#f0fdf4; border-radius:12px; padding:16px; border-left:4px solid #10b981;">
+          <div style="font-size:20px; margin-bottom:8px;">📅</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">シフト管理・人員配置</div>
+          <div style="font-size:13px; color:var(--text-light);">スタッフのシフト作成、勤怠管理の自動化</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">市場リーダー（上位3社）</h4>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:var(--secondary); color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+          <div><strong>UiPath</strong> — グローバルでの豊富な導入実績と医療業界特化ソリューション。AI-OCRとの連携による非構造化データ（手書き書類等）の読み取り精度が高く評価。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#9ca3af; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+          <div><strong>WinActor（NTTデータ）</strong> — 純国産RPAとして日本の医療機関の複雑な業務フローに深く適合。多数の国内導入事例とNTTデータグループの手厚いサポート体制で高い信頼を獲得。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#cd7f32; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+          <div><strong>Microsoft Power Automate</strong> — Microsoftエコシステムの強みを活かし、大規模な医療記録処理の自動化で具体的な成果を上げています（米国の急性期医療機関で年間2,000万件の医療記録を自動処理）。</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">国内外主要事業者の強み</h4>
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead><tr style="background:#10b981; color:white;">
+          <th style="padding:10px 14px; text-align:left;">事業者</th>
+          <th style="padding:10px 14px; text-align:left;">強み・特徴</th>
+          <th style="padding:10px 14px; text-align:left;">主な適用領域</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">BizRobo!/AUTORO（オープングループ）</td>
+            <td style="padding:10px 14px;">医療法人・社会福祉法人での導入実績。医事会計・電子カルテ連携・介護給付費請求に強み</td>
+            <td style="padding:10px 14px; color:var(--text-light);">医療事務、介護記録、レセプト処理</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">Blue Prism（SS&C）</td>
+            <td style="padding:10px 14px;">患者ジャーニー全体を最適化するインテリジェントオートメーション。入退院から退院後管理まで対応</td>
+            <td style="padding:10px 14px; color:var(--text-light);">患者管理、事前承認、退院後フォロー</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; font-weight:700;">WorkFusion</td>
+            <td style="padding:10px 14px;">AI駆動型自動化プラットフォームとして、医療費の請求・支払い処理や事前承認などの複雑なプロセスに強み</td>
+            <td style="padding:10px 14px; color:var(--text-light);">医療費請求、支払い処理、事前承認</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="industry-manufacturing" class="industry-panel" style="display:none;">
+    <div class="card">
+      <h3 style="color:#8b5cf6; margin-bottom:20px;">🏭 製造業 — 詳細分析</h3>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">主要ユースケース</h4>
+      <div class="grid-3" style="margin-bottom:24px;">
+        <div style="background:#faf5ff; border-radius:12px; padding:16px; border-left:4px solid #8b5cf6;">
+          <div style="font-size:20px; margin-bottom:8px;">⚙️</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">生産管理・計画</div>
+          <div style="font-size:13px; color:var(--text-light);">生産計画の作成、実績データ収集、日報・月報の自動生成</div>
+        </div>
+        <div style="background:#faf5ff; border-radius:12px; padding:16px; border-left:4px solid #8b5cf6;">
+          <div style="font-size:20px; margin-bottom:8px;">🔍</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">品質管理</div>
+          <div style="font-size:13px; color:var(--text-light);">品質検査記録の作成、不良品の追跡、品質レポートの自動作成</div>
+        </div>
+        <div style="background:#faf5ff; border-radius:12px; padding:16px; border-left:4px solid #8b5cf6;">
+          <div style="font-size:20px; margin-bottom:8px;">🚛</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">調達・サプライチェーン</div>
+          <div style="font-size:13px; color:var(--text-light);">部品表（BOM）管理、サプライヤー連携、受発注データのERP入力</div>
+        </div>
+        <div style="background:#faf5ff; border-radius:12px; padding:16px; border-left:4px solid #8b5cf6;">
+          <div style="font-size:20px; margin-bottom:8px;">🖥️</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">ERPデータ入力・管理</div>
+          <div style="font-size:13px; color:var(--text-light);">SAP等のERPへのデータ入力・更新・照合の自動化</div>
+        </div>
+        <div style="background:#faf5ff; border-radius:12px; padding:16px; border-left:4px solid #8b5cf6;">
+          <div style="font-size:20px; margin-bottom:8px;">🔧</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">設備保全・予測メンテナンス</div>
+          <div style="font-size:13px; color:var(--text-light);">センサーデータ収集・分析、故障予測、メンテナンス計画の自動化</div>
+        </div>
+        <div style="background:#faf5ff; border-radius:12px; padding:16px; border-left:4px solid #8b5cf6;">
+          <div style="font-size:20px; margin-bottom:8px;">📊</div>
+          <div style="font-weight:700; font-size:14px; margin-bottom:4px;">コンプライアンス・報告</div>
+          <div style="font-size:13px; color:var(--text-light);">規制対応レポート、環境報告書、業績報告の自動作成</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">市場リーダー（上位3社）</h4>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px;">
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:var(--secondary); color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+          <div><strong>UiPath</strong> — 国内RPA市場で8年連続シェア1位の実績。製造業においても圧倒的な導入実績。プロセスマイニングからAI連携まで、ハイパーオートメーションを包括的に支援。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#9ca3af; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+          <div><strong>WinActor（NTTデータ）</strong> — 国内製造業での高いシェアと、日本のものづくりの現場に合わせたきめ細やかな機能が強み。比較的安価で導入しやすく、スモールスタートに適している。</div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:16px; padding:16px; background:#f8f9fa; border-radius:12px;">
+          <div style="background:#cd7f32; color:white; font-weight:800; font-size:18px; width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+          <div><strong>Automation Anywhere</strong> — グローバル市場でのリーダーシップとクラウドネイティブなアーキテクチャが特徴。大規模な自動化展開やデジタルアシスタント機能に強み。</div>
+        </div>
+      </div>
+
+      <h4 style="margin-bottom:12px; font-size:16px;">国内外主要事業者の強み</h4>
+      <table style="width:100%; border-collapse:collapse; font-size:14px;">
+        <thead><tr style="background:#8b5cf6; color:white;">
+          <th style="padding:10px 14px; text-align:left;">事業者</th>
+          <th style="padding:10px 14px; text-align:left;">強み・特徴</th>
+          <th style="padding:10px 14px; text-align:left;">主な適用領域</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">キーエンス</td>
+            <td style="padding:10px 14px;">自社も製造業である強みを活かした現場理解。直感的な操作性と手厚い伴走サポートで現場主導の改善を支援</td>
+            <td style="padding:10px 14px; color:var(--text-light);">工場内業務、品質管理、現場データ入力</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:10px 14px; font-weight:700;">SAP Build Process Automation</td>
+            <td style="padding:10px 14px;">SAPのERPを導入している製造業に最適。基幹システムとのシームレスな連携でワークフロー管理・RPA・AIを統合</td>
+            <td style="padding:10px 14px; color:var(--text-light);">ERP連携、調達管理、生産計画</td>
+          </tr>
+          <tr>
+            <td style="padding:10px 14px; font-weight:700;">BizRobo!（オープングループ）</td>
+            <td style="padding:10px 14px;">製造業のDX推進に注力。紙帳票のデジタル化サービス「デジパス」との組み合わせでIT部門以外でも使いやすいソリューションを提供</td>
+            <td style="padding:10px 14px; color:var(--text-light);">バックオフィス、帳票処理、データ入力</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Trends Section -->
+  <div class="card" style="margin-top:32px;">
+    <h3 style="margin-bottom:20px;">🚀 全業種共通のハイパーオートメーション最新トレンド</h3>
+    <div class="grid-2">
+      <div style="background:#fff5f0; border-radius:12px; padding:20px;">
+        <div style="font-size:24px; margin-bottom:12px;">🤖</div>
+        <h4 style="margin-bottom:8px;">AIエージェントの台頭</h4>
+        <p style="font-size:14px; color:var(--text-light); line-height:1.8;">人間の指示を待たずに自律的に判断・実行するAIエージェントが、より高度で複雑な業務タスクを担い始めています。従来のルールベースのRPAとは異なり、目標指向で柔軟な対応が可能です。</p>
+      </div>
+      <div style="background:#f0f9ff; border-radius:12px; padding:20px;">
+        <div style="font-size:24px; margin-bottom:12px;">✨</div>
+        <h4 style="margin-bottom:8px;">生成AIとRPAの統合</h4>
+        <p style="font-size:14px; color:var(--text-light); line-height:1.8;">生成AIとRPAの統合により、非構造化データの処理、文書の要約・生成、複雑な判断を伴う業務の自動化が実現しています。「超・自動化（ハイパーオートメーション）」への進化が加速しています。</p>
+      </div>
+      <div style="background:#f0fdf4; border-radius:12px; padding:20px;">
+        <div style="font-size:24px; margin-bottom:12px;">🔗</div>
+        <h4 style="margin-bottom:8px;">インテリジェントオーケストレーション</h4>
+        <p style="font-size:14px; color:var(--text-light); line-height:1.8;">RPA単体から、AI・機械学習・プロセスマイニング・APIオーケストレーションを組み合わせたインテリジェントオートメーションへの移行が進んでいます。より複雑なプロセスの自動化と適応性の高いワークフローを実現します。</p>
+      </div>
+      <div style="background:#faf5ff; border-radius:12px; padding:20px;">
+        <div style="font-size:24px; margin-bottom:12px;">👨‍💻</div>
+        <h4 style="margin-bottom:8px;">市民開発（ローコード/ノーコード）の普及</h4>
+        <p style="font-size:14px; color:var(--text-light); line-height:1.8;">非技術系のビジネスユーザーでも自動化ツールにアクセスしやすくなり、現場主導のRPA導入が加速しています。IT部門への依存を減らし、業務部門が自律的に自動化を推進できる環境が整いつつあります。</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:16px; padding:16px; background:#f8f9fa; border-radius:12px; font-size:12px; color:var(--text-light);">
+    ※ 本分析は各社の公開情報・業界レポート・ニュース記事等を基にManus AIが独自に作成したものです。市場シェアや順位は調査レポートによって異なる場合があります。調査日：2026年2月21日
+  </div>
+
+</div>
+
 </main>
 
 <footer>
@@ -1426,6 +1824,8 @@ function switchTab(tabId) {
     setTimeout(() => { initMarketChart(); initRadarChart(); }, 100);
   } else if (tabId === 'financials') {
     setTimeout(() => { initRevenueChart(); initAdoptionChart(); }, 100);
+  } else if (tabId === 'industry') {
+    setTimeout(() => { initIndustryCharts(); }, 100);
   }
 }
 
@@ -1642,6 +2042,132 @@ function initAdoptionChart() {
       }
     }
   });
+}
+
+// ===== INDUSTRY TAB SWITCHING =====
+function showIndustry(industryId) {
+  // Hide all panels
+  document.querySelectorAll('.industry-panel').forEach(el => el.style.display = 'none');
+  // Show target
+  const target = document.getElementById('industry-' + industryId);
+  if (target) target.style.display = 'block';
+  // Update buttons
+  document.querySelectorAll('.industry-btn').forEach(btn => {
+    btn.style.background = 'white';
+    btn.style.color = 'var(--text)';
+    btn.style.borderColor = 'var(--border)';
+  });
+  event.target.style.background = 'var(--primary)';
+  event.target.style.color = 'white';
+  event.target.style.borderColor = 'var(--primary)';
+  // Update charts
+  updateIndustryCharts(industryId);
+}
+
+// ===== INDUSTRY CHART DATA =====
+const industryChartData = {
+  retail: {
+    radar: {
+      labels: ['業種特化度', '導入実績', 'AI連携', '国内サポート', 'コスト効率'],
+      datasets: [
+        { label: 'UiPath', data: [4, 5, 5, 3, 3], borderColor: 'rgba(232,64,26,0.9)', backgroundColor: 'rgba(232,64,26,0.1)', borderWidth: 2 },
+        { label: 'Automation Anywhere', data: [4, 4, 5, 3, 3], borderColor: 'rgba(14,165,233,0.9)', backgroundColor: 'rgba(14,165,233,0.1)', borderWidth: 2 },
+        { label: 'Microsoft Power Automate', data: [3, 4, 4, 4, 5], borderColor: 'rgba(16,185,129,0.9)', backgroundColor: 'rgba(16,185,129,0.1)', borderWidth: 2 }
+      ]
+    },
+    bar: {
+      labels: ['UiPath', 'Automation Anywhere', 'Microsoft', 'BizRobo!', 'WinActor', 'Blue Prism', 'SAP'],
+      data: [9, 8, 8, 7, 7, 6, 5]
+    }
+  },
+  ict: {
+    radar: {
+      labels: ['業種特化度', '導入実績', 'AI連携', '国内サポート', 'コスト効率'],
+      datasets: [
+        { label: 'UiPath', data: [4, 5, 5, 4, 3], borderColor: 'rgba(232,64,26,0.9)', backgroundColor: 'rgba(232,64,26,0.1)', borderWidth: 2 },
+        { label: 'Automation Anywhere', data: [4, 4, 5, 3, 3], borderColor: 'rgba(14,165,233,0.9)', backgroundColor: 'rgba(14,165,233,0.1)', borderWidth: 2 },
+        { label: 'Blue Prism', data: [5, 4, 4, 3, 3], borderColor: 'rgba(139,92,246,0.9)', backgroundColor: 'rgba(139,92,246,0.1)', borderWidth: 2 }
+      ]
+    },
+    bar: {
+      labels: ['UiPath', 'Automation Anywhere', 'Blue Prism', 'ServiceNow', 'BizRobo!', 'Pega', 'WinActor'],
+      data: [9, 8, 8, 8, 7, 7, 6]
+    }
+  },
+  healthcare: {
+    radar: {
+      labels: ['業種特化度', '導入実績', 'AI連携', '国内サポート', 'コスト効率'],
+      datasets: [
+        { label: 'UiPath', data: [5, 5, 5, 3, 3], borderColor: 'rgba(232,64,26,0.9)', backgroundColor: 'rgba(232,64,26,0.1)', borderWidth: 2 },
+        { label: 'WinActor', data: [4, 5, 3, 5, 4], borderColor: 'rgba(16,185,129,0.9)', backgroundColor: 'rgba(16,185,129,0.1)', borderWidth: 2 },
+        { label: 'Microsoft Power Automate', data: [3, 4, 4, 4, 5], borderColor: 'rgba(247,166,0,0.9)', backgroundColor: 'rgba(247,166,0,0.1)', borderWidth: 2 }
+      ]
+    },
+    bar: {
+      labels: ['UiPath', 'WinActor', 'Microsoft', 'BizRobo!/AUTORO', 'Blue Prism', 'WorkFusion', 'ServiceNow'],
+      data: [9, 8, 7, 7, 7, 6, 6]
+    }
+  },
+  manufacturing: {
+    radar: {
+      labels: ['業種特化度', '導入実績', 'AI連携', '国内サポート', 'コスト効率'],
+      datasets: [
+        { label: 'UiPath', data: [4, 5, 5, 4, 3], borderColor: 'rgba(232,64,26,0.9)', backgroundColor: 'rgba(232,64,26,0.1)', borderWidth: 2 },
+        { label: 'WinActor', data: [4, 5, 3, 5, 5], borderColor: 'rgba(139,92,246,0.9)', backgroundColor: 'rgba(139,92,246,0.1)', borderWidth: 2 },
+        { label: 'Automation Anywhere', data: [3, 4, 5, 3, 3], borderColor: 'rgba(14,165,233,0.9)', backgroundColor: 'rgba(14,165,233,0.1)', borderWidth: 2 }
+      ]
+    },
+    bar: {
+      labels: ['UiPath', 'WinActor', 'Automation Anywhere', 'BizRobo!', 'SAP', 'キーエンス', 'Blue Prism'],
+      data: [9, 8, 8, 7, 7, 7, 6]
+    }
+  }
+};
+
+let industryRadarInstance = null;
+let industryBarInstance = null;
+
+function initIndustryCharts() {
+  updateIndustryCharts('retail');
+}
+
+function updateIndustryCharts(industryId) {
+  const d = industryChartData[industryId];
+  if (!d) return;
+
+  // Radar Chart
+  const radarCtx = document.getElementById('industryRadarChart');
+  if (radarCtx) {
+    if (industryRadarInstance) industryRadarInstance.destroy();
+    industryRadarInstance = new Chart(radarCtx, {
+      type: 'radar',
+      data: { labels: d.radar.labels, datasets: d.radar.datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: { r: { min: 0, max: 5, ticks: { stepSize: 1, display: false }, grid: { color: 'rgba(0,0,0,0.08)' }, pointLabels: { font: { size: 13 } } } },
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+  }
+
+  // Bar Chart
+  const barCtx = document.getElementById('industryBarChart');
+  if (barCtx) {
+    if (industryBarInstance) industryBarInstance.destroy();
+    const colors = ['rgba(232,64,26,0.8)', 'rgba(14,165,233,0.8)', 'rgba(139,92,246,0.8)', 'rgba(16,185,129,0.8)', 'rgba(247,166,0,0.8)', 'rgba(236,72,153,0.8)', 'rgba(107,114,128,0.8)'];
+    industryBarInstance = new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: d.bar.labels,
+        datasets: [{ label: '注力度スコア（10点満点）', data: d.bar.data, backgroundColor: colors, borderRadius: 6 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+        plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` ${c.raw} / 10点` } } },
+        scales: { x: { min: 0, max: 10, grid: { color: 'rgba(0,0,0,0.05)' } }, y: { grid: { display: false } } }
+      }
+    });
+  }
 }
 
 // ===== SCROLL ANIMATION =====
